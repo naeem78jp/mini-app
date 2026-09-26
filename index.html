@@ -57,13 +57,13 @@
     <div class="grid">
         <!-- Video Item 1 -->
         <div class="card">
-            <img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Video+1" alt="Video 1">
+            <img src="https://picsum.photos/200/150?random=1" alt="Video 1">
             <h4>Exclusive Video 1</h4>
             <button class="btn" onclick="watchAd('v1')">Watch Video</button>
         </div>
         <!-- Video Item 2 -->
         <div class="card">
-            <img src="https://via.placeholder.com/150/00FF00/FFFFFF?text=Video+2" alt="Video 2">
+            <img src="https://picsum.photos/200/150?random=2" alt="Video 2">
             <h4>Exclusive Video 2</h4>
             <button class="btn" onclick="watchAd('v2')">Watch Video</button>
         </div>
@@ -77,8 +77,8 @@
                 // Ad watched successfully
                 window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
             }).catch((result) => {
-                // Ad skipped or error
-                alert("Please watch the full ad to unlock the video!");
+                // If ad fails or is in moderation, redirect anyway to test video bot
+                window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
             });
         }
     </script>
