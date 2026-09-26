@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viral Hub Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+        }
+        h2 { margin-bottom: 20px; color: #0088cc; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+        .card {
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .card h4 { margin: 10px 0 5px; font-size: 14px; }
+        .btn {
+            background-color: #24a1de;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>🔥 Trending Videos 🔥</h2>
+
+    <div class="grid">
+        <!-- Video Item 1 -->
+        <div class="card">
+            <img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Video+1" alt="Video 1">
+            <h4>Exclusive Video 1</h4>
+            <button class="btn" onclick="watchAd('v1')">Watch Video</button>
+        </div>
+        <!-- Video Item 2 -->
+        <div class="card">
+            <img src="https://via.placeholder.com/150/00FF00/FFFFFF?text=Video+2" alt="Video 2">
+            <h4>Exclusive Video 2</h4>
+            <button class="btn" onclick="watchAd('v2')">Watch Video</button>
+        </div>
+    </div>
+
+    <script>
+        const AdController = window.Adsgram.init({ blockId: "50171" });
+
+        function watchAd(videoId) {
+            AdController.show().then((result) => {
+                // Ad watched successfully
+                window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
+            }).catch((result) => {
+                // Ad skipped or error
+                alert("Please watch the full ad to unlock the video!");
+            });
+        }
+    </script>
+</body>
+</html>
