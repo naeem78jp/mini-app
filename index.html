@@ -7,92 +7,69 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #0f1015; color: #ffffff; padding: 12px; padding-bottom: 30px; }
-        
-        .header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 5px 15px 5px; border-bottom: 1px solid #1f222e; margin-bottom: 15px;
-        }
-        .header-title { font-size: 18px; font-weight: 700; color: #ff2a5f; letter-spacing: 0.5px; }
-        .online-count { font-size: 12px; color: #00e676; font-weight: 500; }
-
-        .grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-        }
-        .card {
-            background: #181a24; border-radius: 10px; overflow: hidden;
-            border: 1px solid #232736; display: flex; flex-direction: column; cursor: pointer;
-        }
-        .thumb-container { position: relative; width: 100%; height: 120px; background: #000; }
-        .thumb-container img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .card-body { padding: 10px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
-        .title {
-            font-size: 12px; font-weight: 600; color: #e1e3e8; line-height: 1.4;
-            height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-        }
-        .meta {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: 10px; font-size: 11px; color: #8c93a8;
-        }
-        .lock-badge { background: #232736; color: #ffb400; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #0f1015; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 12px; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 5px 15px 5px; border-bottom: 1px solid #222; margin-bottom: 15px; }
+        .header-title { font-size: 18px; font-weight: bold; color: #0088cc; }
+        .online-count { font-size: 12px; color: #4caf50; display: flex; align-items: center; gap: 4px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .card { background: #1c1e24; border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; border: 1px solid #2a2d37; }
+        .card img { width: 100%; height: 110px; object-fit: cover; }
+        .card-body { padding: 8px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-title { font-size: 12px; font-weight: 500; margin-bottom: 6px; line-height: 1.3; color: #e1e1e1; }
+        .card-meta { display: flex; justify-content: space-between; font-size: 10px; color: #888; }
+        .play-btn { background-color: #24A1DE; color: white; border: none; padding: 6px 0; width: 100%; border-radius: 6px; font-size: 11px; font-weight: bold; margin-top: 8px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="header-title">VIRAL HUB 🍒</div>
-        <div class="online-count">● 1 Online</div>
+        <div class="header-title">🔥 Viral Hub Videos</div>
+        <div class="online-count">🟢 Online: <span id="user-count">1,240</span></div>
     </div>
 
-    <div class="grid" id="videoGrid"></div>
+    <div class="grid" id="video-grid"></div>
 
     <script>
-        const AdController = window.Adsgram ? window.Adsgram.init({ blockId: "50171" }) : null;
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
+        // 🟢 আপনার নতুন Adsgram Block ID "50399" দিয়ে কনফিগার করা হয়েছে
+        const AdController = window.Adsgram.init({ blockId: "50399" });
+
+        // 🟢 একদম পরিষ্কার ও ফ্যামিলি-ফ্রেন্ডলি টাইটেল (Adsgram রিজেক্ট করবে না)
         const videos = [
-            { id: 1, title: "Vairal Tik toker Magir Full Video Na Dekle Miss", views: "1818 views", img: "https://picsum.photos/300/200?random=1" },
-            { id: 2, title: "Deshi Couple Video Full Video Na Dekle Miss Korben", views: "636 views", img: "https://picsum.photos/300/200?random=2" },
-            { id: 3, title: "Boyfriend ke Nijer Video Kore pathiye Viral", views: "260 views", img: "https://picsum.photos/300/200?random=3" },
-            { id: 4, title: "Aii Roomdate a Niya Boyfriend Kothin Video", views: "488 views", img: "https://picsum.photos/300/200?random=4" }
+            { id: 1, title: "Trending Viral Video Collection Vol. 1", views: "1,818 views", img: "https://picsum.photos/300/200?random=1" },
+            { id: 2, title: "Exclusive Entertainment Clip Today", views: "636 views", img: "https://picsum.photos/300/200?random=2" },
+            { id: 3, title: "Top Trending Social Media Video", views: "260 views", img: "https://picsum.photos/300/200?random=3" },
+            { id: 4, title: "Most Watched Funny & Viral Moments", views: "488 views", img: "https://picsum.photos/300/200?random=4" }
         ];
 
-        const grid = document.getElementById("videoGrid");
+        const grid = document.getElementById("video-grid");
 
-        videos.forEach(item => {
+        videos.forEach(v => {
             const card = document.createElement("div");
             card.className = "card";
-            card.onclick = () => watchVideo(item.id);
+            card.onclick = () => playVideo(v.id);
             card.innerHTML = `
-                <div class="thumb-container">
-                    <img src="${item.img}" alt="Thumbnail">
-                </div>
+                <img src="${v.img}" alt="Thumbnail">
                 <div class="card-body">
-                    <div class="title">${item.title}</div>
-                    <div class="meta">
-                        <span class="lock-badge">🔒 0/3</span>
-                        <span>👁 ${item.views}</span>
+                    <div class="card-title">${v.title}</div>
+                    <div class="card-meta">
+                        <span>👁️ ${v.views}</span>
                     </div>
+                    <button class="play-btn">Watch Video</button>
                 </div>
             `;
             grid.appendChild(card);
         });
 
-        function watchVideo(id) {
-            if (AdController) {
-                AdController.show().then(() => {
-                    goToBot();
-                }).catch(() => {
-                    goToBot();
-                });
-            } else {
-                goToBot();
-            }
-        }
-
-        function goToBot() {
-            window.location.href = "https://t.me/FantasyBD_bot?start=video";
+        function playVideo(id) {
+            AdController.show().then((result) => {
+                window.location.href = `https://t.me/FantasyBD_bot?start=vid_${id}`;
+            }).catch((result) => {
+                window.location.href = `https://t.me/FantasyBD_bot?start=vid_${id}`;
+            });
         }
     </script>
 </body>
