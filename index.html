@@ -3,91 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viral Hub Mini App</title>
+    <title>Viral Hub</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 15px;
-            text-align: center;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #0f1015; color: #ffffff; padding: 12px; padding-bottom: 30px; }
+        
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 5px 15px 5px; border-bottom: 1px solid #1f222e; margin-bottom: 15px;
         }
-        h2 { margin-bottom: 20px; color: #0088cc; }
+        .header-title { font-size: 18px; font-weight: 700; color: #ff2a5f; letter-spacing: 0.5px; }
+        .online-count { font-size: 12px; color: #00e676; font-weight: 500; }
+
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
         }
         .card {
-            background: #1e1e1e;
-            border-radius: 10px;
-            padding: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: #181a24; border-radius: 10px; overflow: hidden;
+            border: 1px solid #232736; display: flex; flex-direction: column; cursor: pointer;
         }
-        .card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 8px;
+        .thumb-container { position: relative; width: 100%; height: 120px; background: #000; }
+        .thumb-container img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .card-body { padding: 10px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+        .title {
+            font-size: 12px; font-weight: 600; color: #e1e3e8; line-height: 1.4;
+            height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
         }
-        .card h4 { margin: 10px 0 5px; font-size: 14px; }
-        .btn {
-            background-color: #24a1de;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            margin-top: 5px;
+        .meta {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 10px; font-size: 11px; color: #8c93a8;
         }
+        .lock-badge { background: #232736; color: #ffb400; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h2>🔥 Trending Videos 🔥</h2>
-
-    <div class="grid">
-        <!-- Video Item 1 -->
-        <div class="card">
-            <img src="https://picsum.photos/200/150?random=1" alt="Video 1">
-            <h4>Exclusive Video 1</h4>
-            <button class="btn" onclick="watchAd('v1')">Watch Video</button>
-        </div>
-        <!-- Video Item 2 -->
-        <div class="card">
-            <img src="https://picsum.photos/200/150?random=2" alt="Video 2">
-            <h4>Exclusive Video 2</h4>
-            <button class="btn" onclick="watchAd('v2')">Watch Video</button>
-        </div>
+    <div class="header">
+        <div class="header-title">EXPOSED ZONE 🍒</div>
+        <div class="online-count">● 1 Online</div>
     </div>
 
-    <script>
-        const AdController = window.Adsgram.init({ blockId: "50171" });
+    <div class="grid" id="videoGrid"></div>
 
-        function watchAd(videoId) {
-            AdController.show().then((result) => {
-                // Ad watched successfully - redirect via Telegram WebApp / location
-                if (window.Telegram && window.Telegram.WebApp) {
-                    window.Telegram.WebApp.openTelegramLink("https://t.me/FantasyBD_bot?start=" + videoId);
-                } else {
-                    window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
-                }
-            }).catch((result) => {
-                // Fallback redirect
-                if (window.Telegram && window.Telegram.WebApp) {
-                    window.Telegram.WebApp.openTelegramLink("https://t.me/FantasyBD_bot?start=" + videoId);
-                } else {
-                    window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
-                }
-            });
+    <script>
+        const AdController = window.Adsgram ? window.Adsgram.init({ blockId: "50171" }) : null;
+
+        const videos = [
+            { id: 1, title: "Vairal Tik toker Magir Full Video Na Dekle Miss", views: "1818 views", img: "https://picsum.photos/300/200?random=1" },
+            { id: 2, title: "Deshi Couple Video Full Video Na Dekle Miss Korben", views: "636 views", img: "https://picsum.photos/300/200?random=2" },
+            { id: 3, title: "Boyfriend ke Nijer Video Kore pathiye Viral", views: "260 views", img: "https://picsum.photos/300/200?random=3" },
+            { id: 4, title: "Aii Roomdate a Niya Boyfriend Kothin Video", views: "488 views", img: "https://picsum.photos/300/200?random=4" }
+        ];
+
+        const grid = document.getElementById("videoGrid");
+
+        videos.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.onclick = () => watchVideo(item.id);
+            card.innerHTML = `
+                <div class="thumb-container">
+                    <img src="${item.img}" alt="Thumbnail">
+                </div>
+                <div class="card-body">
+                    <div class="title">${item.title}</div>
+                    <div class="meta">
+                        <span class="lock-badge">🔒 0/3</span>
+                        <span>👁 ${item.views}</span>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        function watchVideo(id) {
+            if (AdController) {
+                AdController.show().then(() => {
+                    goToBot();
+                }).catch(() => {
+                    goToBot();
+                });
+            } else {
+                goToBot();
+            }
+        }
+
+        function goToBot() {
+            window.location.href = "https://t.me/FantasyBD_bot?start=video";
         }
     </script>
 </body>
