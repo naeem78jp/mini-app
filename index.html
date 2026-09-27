@@ -74,11 +74,19 @@
 
         function watchAd(videoId) {
             AdController.show().then((result) => {
-                // Ad watched successfully
-                window.location.href = "https://t.me/FantasyBD_bot?startapp=" + videoId;
+                // Ad watched successfully - redirect via Telegram WebApp / location
+                if (window.Telegram && window.Telegram.WebApp) {
+                    window.Telegram.WebApp.openTelegramLink("https://t.me/FantasyBD_bot?start=" + videoId);
+                } else {
+                    window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
+                }
             }).catch((result) => {
                 // Fallback redirect
-                window.location.href = "https://t.me/FantasyBD_bot?startapp=" + videoId;
+                if (window.Telegram && window.Telegram.WebApp) {
+                    window.Telegram.WebApp.openTelegramLink("https://t.me/FantasyBD_bot?start=" + videoId);
+                } else {
+                    window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
+                }
             });
         }
     </script>
