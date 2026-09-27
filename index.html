@@ -75,10 +75,10 @@
         function watchAd(videoId) {
             AdController.show().then((result) => {
                 // Ad watched successfully
-                window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
+                window.location.href = "https://t.me/FantasyBD_bot?startapp=" + videoId;
             }).catch((result) => {
-                // If ad fails or is in moderation, redirect anyway to test video bot
-                window.location.href = "https://t.me/FantasyBD_bot?start=" + videoId;
+                // Fallback redirect
+                window.location.href = "https://t.me/FantasyBD_bot?startapp=" + videoId;
             });
         }
     </script>
